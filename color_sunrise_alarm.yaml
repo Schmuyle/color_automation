@@ -67,7 +67,7 @@ blueprint:
           max: 255.0
           step: 1.0
           mode: slider
-    min_h:
+    min_g:
       name: Starting green value
       description: 'The starting green component to use. (0: lowest supported)'
       default: 0
@@ -170,10 +170,13 @@ action:
                   (as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
-                color_temp: '{{(float(end_mired) + (float(start_mired) - float(end_mired))
+                rgb_color: 
+                  -255
+                  -'{{(float(max_g) + (float(min_g) - float(end_mired))
                   * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
+                  -0
               entity_id: !input 'light_entity'
           default:
           - service: light.turn_on
