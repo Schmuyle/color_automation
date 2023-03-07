@@ -175,7 +175,7 @@ action:
                   | int(0)}}'
                 rgb_color: 
                   - 255
-                  - '{{(float(max_g) + (float(min_g) - float(end_g))
+                  - '{{(float(end_g) + (float(min_g) - float(end_g))
                   * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
