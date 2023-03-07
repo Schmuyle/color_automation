@@ -109,9 +109,9 @@ variables:
   range_brightness: '{{float(end_brightness)-float(start_brightness)}}'
   manual_time: !input 'manual_time'
   seconds: '{{float(sunrise_duration) * 60}}'
-  min_mired: !input 'min_mired'
-  start_mired: '{{state_attr(light_entity, ''max_mireds'')}}'
-  end_mired: '{{[state_attr(light_entity, ''min_mireds'')|int(0), min_mired|int(0)]|max}}'
+  min_g: !input 'min_g'
+  start_g: '{{state_attr(light_entity, ''max_gs'')}}'
+  end_g: '{{[state_attr(light_entity, ''min_gs'')|int(0), min_g|int(0)]|max}}'
   tick_time: '{{float(seconds) / float(range_brightness)}}'
   check_entity: !input 'check_entity'
 trigger:
@@ -133,12 +133,12 @@ action:
     in [''unknown'', ''on'', ''home'']}}'
 - choose:
   - conditions:
-    - '{{state_attr(light_entity, ''min_mireds'') != None}}'
+    - '{{state_attr(light_entity, ''min_gs'') != None}}'
     sequence:
     - service: light.turn_on
       data:
         brightness: '{{start_brightness}}'
-        color_temp: '{{start_mired}}'
+        color_temp: '{{start_g}}'
       entity_id: !input 'light_entity'
   default:
   - service: light.turn_on
@@ -162,7 +162,7 @@ action:
         sequence:
         - choose:
           - conditions:
-            - '{{state_attr(light_entity, ''min_mireds'') != None}}'
+            - '{{state_attr(light_entity, ''min_gs'') != None}}'
             sequence:
             - service: light.turn_on
               data:
@@ -172,7 +172,7 @@ action:
                   | int(0)}}'
                 rgb_color: 
                   - 255
-                  - '{{(float(max_g) + (float(min_g) - float(end_mired))
+                  - '{{(float(max_g) + (float(min_g) - float(end_g))
                   * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
