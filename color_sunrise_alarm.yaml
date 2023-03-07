@@ -171,12 +171,12 @@ action:
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
                 rgb_color: 
-                  -255
-                  -'{{(float(max_g) + (float(min_g) - float(end_mired))
+                  - 255
+                  - '{{(float(max_g) + (float(min_g) - float(end_mired))
                   * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
                   ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
                   | int(0)}}'
-                  -0
+                  - 0
               entity_id: !input 'light_entity'
           default:
           - service: light.turn_on
