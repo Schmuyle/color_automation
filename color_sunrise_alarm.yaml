@@ -67,17 +67,26 @@ blueprint:
           max: 255.0
           step: 1.0
           mode: slider
-    min_mired:
-      name: Minimum color temperature
-      description: 'The minimum color temperature to use. (0: lowest supported)'
+    min_h:
+      name: Starting green value
+      description: 'The starting green component to use. (0: lowest supported)'
       default: 0
       selector:
         number:
           min: 0.0
-          max: 500.0
-          step: 5.0
+          max: 255.0
+          step: 1.0
           mode: slider
-          unit_of_measurement: mired
+    max_g:
+      name: Ending Green value
+      description: 'The Final green to use. (0: lowest supported)'
+      default: 128
+      selector:
+        number:
+          min: 0.0
+          max: 255.0
+          step: 1.0
+          mode: slider
     pre_sunrise_actions:
       name: Pre-sunrise actions
       description: Optional actions to run before sunrise starts.
