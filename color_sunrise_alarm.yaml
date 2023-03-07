@@ -99,7 +99,6 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://gist.github.com/sbyx/96c43b13b90ae1c35b872313ba1d2d2d
 variables:
   light_entity: !input 'light_entity'
   sensor: !input 'timestamp_sensor'
@@ -163,30 +162,19 @@ action:
         - '{{0 < as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
           ~ '' '' ~ manual_time) - as_timestamp(now()) <= float(seconds)}}'
         sequence:
-        - choose:
-          - conditions:
-            - '{{state_attr(light_entity, ''min_gs'') != None}}'
-            sequence:
-            - service: light.turn_on
-              data:
-                brightness: '{{(float(end_brightness) - (float(range_brightness) *
-                  (as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
-                  ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
-                  | int(0)}}'
-                rgb_color: 
-                  - 255
-                  - '{{(float(max_g) + (float(min_g) - float(end_g))
-                  * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
-                  ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
-                  | int(0)}}'
-                  - 0
-              entity_id: !input 'light_entity'
-          default:
           - service: light.turn_on
             data:
-              brightness: '{{(float(end_brightness) - (float(range_brightness) * (as_timestamp(states(sensor)
-                if sensor != ''none'' else states(''sensor.date'') ~ '' '' ~ manual_time)
-                - as_timestamp(now())) / float(seconds))) | int(0)}}'
+              brightness: '{{(float(end_brightness) - (float(range_brightness) *
+                (as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
+                ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
+                | int(0)}}'
+              rgb_color: 
+                - 255
+                - '{{(float(max_g) + (float(min_g) - float(end_g))
+                * ((as_timestamp(states(sensor) if sensor != ''none'' else states(''sensor.date'')
+                ~ '' '' ~ manual_time) - as_timestamp(now())) / float(seconds)))
+                | int(0)}}'
+                - 0
             entity_id: !input 'light_entity'
 - choose: []
   default: !input 'post_sunrise_actions'
